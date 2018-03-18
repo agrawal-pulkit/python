@@ -1,0 +1,39 @@
+1) First we created the dummy minimal data set manually with 23 product variants.
+Assumptions: We mapped ProductType using numbers say 1 reprsents TV, 2 for radio etc. 
+Refer Training_data.xls for this
+
+2) We created 3 models(kNN, classification tree, linear regression) using the training data. 
+Assumptions: Based on the problem statement we suspect kNN to be good for the problem solution. Although classification tree is also a good alternative. Linear regression was just used to show comparison with kNN and classification tree. The dummy data was created while keeping some interdependency between data.
+
+3) We used Orange canvas for model creation considering benifits for quicker model creation and testing. 90% of the data set was used for training and the remaining 10% was used for the testing and score prediction.
+kNN gave 1.0 as coefficient of determination.
+Classification Tree gave 0.86
+Regression gave 0.94
+
+4) ProfitMargin.ows is the first model creation and verification file. After training we used 3 samples from the same data set to verify if prediction for profit margin matches. 
+
+kNN results were closer to the acutal profit margin in 2 instances but it predicted a higher value in 1 instance.
+classification tree results were much closer to the actual data in 2 instances but predicted much higer profit in the 3rd case.
+Linear regression posted much higher values than actual data in 2 instances. Although its predictions more closer than classification tree it predicted a higer profit in 2 instances. Predicting a lower value would be acceptable in this scenario than posting a higher one.
+
+Note:ProfitMargin was the target here for training and prediction
+ 
+5) We created the SellingCost.ows workflow this used the same traning data set, models and configuration parameters as before. We tried predicting the selling cost using the same 3 samples  and verified that kNN still performed better and gave almost macthing results for selling price.
+We also added another row for predicting the selling price assuming that we want a profit margin of 45%, market share of say 48% with an assumtion that planned warranty period is 1year, Product life span is say 3years and a manufacturing cost of say 1600. All other values were kept unknown.
+Note:SellingCost was the target here
+
+kNN predicted almost accurate results for the 3samples from the training data. The predicted selling price was approx 1965.
+we could have also used the same model for predicting other unknowns.
+
+
+6) We created MarketSegment.ows for predicting the market segment. This used the same configuration, training set and model as before. We later used the same 3samples for verification and used another row for predicting the market segment assuming that we want a profit margin of 45%, market share of 48% while considering warranty period of 1year, life span of 3years and manufacturing cost of say 1600.
+The model number predictions for 3known samples matched well with kNN and LinearRegression. The prediction for the unkown came around model 15 when selling cost obtained in previous step was provided.
+Note the predictions change when more unknowns are introduced.
+Note: MargetSegment was kept as the target here
+
+7) We created FixedServiceCost.ows for predicting the fixed service cost. We use the same data set and configuration but skipped the features for repair and replacement code. The predictions using kNN for existing data were quite near the acutal data. The prediction for FixedCost came as 733. 
+ 
+8)  For predicting the estimated cost we need a new feature to be introduced in the data set we are assuming the estimated service cost to be sum of fixed service cost + repair and replacement cost during the warranty period. For this we pre-process the data and add a new estimated service cost field.
+We use the same training model with target as estimated service cost.
+The knn predictions still performed better than the tree and regression models. The predicted values were near the actual ones for the known tested samples and the new predicted value was 793 for the current predicted product.
+EstimatedServiceCost.ows has the model and output details.
